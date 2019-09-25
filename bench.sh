@@ -1,7 +1,7 @@
 #!/bin/bash
 #####################################################################
 # Benchmark Script 2 by Hidden Refuge from FreeVPS                  #
-# Copyright(C) 2015 - 2016 by Hidden Refuge                         #
+# Copyright(C) 2015 - 2019 by Hidden Refuge                         #
 # Github: https://github.com/hidden-refuge/bench-sh-2               #
 #####################################################################
 # Original script by akamaras/camarg                                #
@@ -30,7 +30,8 @@ sysinfo () {
 	# Reading system uptime
 	up=$( uptime | awk '{ $1=$2=$(NF-6)=$(NF-5)=$(NF-4)=$(NF-3)=$(NF-2)=$(NF-1)=$NF=""; print }' | sed 's/^[ \t]*//;s/[ \t]*$//' )
 	# Reading operating system and version (simple, didn't filter the strings at the end...)
-	opsy=$( cat /etc/issue.net | awk 'NR==1 {print}' ) # Operating System & Version
+	opsy=$( cat /etc/os-release | grep PRETTY_NAME | tr -d '"' | sed -e "s/^PRETTY_NAME=//" ) # Operating System & Version
+	#opsy=$( cat /etc/issue.net | awk 'NR==1 {print}' ) # Operating System & Version
 	arch=$( uname -m ) # Architecture
 	lbit=$( getconf LONG_BIT ) # Architecture in Bit
 	hn=$( hostname ) # Hostname
@@ -87,7 +88,7 @@ speedtest4 () {
 	slsg=$( wget -4 -O /dev/null http://speedtest.sng01.softlayer.com/downloads/test100.zip 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' )
 	echo "Singapore 		Softlayer	$slsg " | tee -a $HOME/bench.log
 	hitw=$( wget -4 -O /dev/null http://tpdb.speed2.hinet.net/test_100m.zip 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' ) 
-	echo "Taiwan                    Hinet           $hitw " | tee -a $HOME/bench.log
+	echo "Taiwan                   Hinet           $hitw " | tee -a $HOME/bench.log
 	echo "" | tee -a $HOME/bench.log
 	# Europe speed test
 	i3d=$( wget -4 -O /dev/null http://mirror.i3d.net/100mb.bin 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' )
@@ -95,8 +96,7 @@ speedtest4 () {
 	leaseweb=$( wget -4 -O /dev/null http://mirror.leaseweb.com/speedtest/100mb.bin 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' )
 	echo "Haarlem, Netherlands	Leaseweb	$leaseweb " | tee -a $HOME/bench.log
 	echo "" | tee -a $HOME/bench.log
-	echo "" | tee -a $HOME/bench.log
-}
+	echo "" | tee -a $HOME/bench.log}
 speedtest6 () {
 	ipvii=$( wget -qO- ipv6.icanhazip.com ) # Getting IPv6
   	# Speed test via wget for IPv6 only with 10x 100 MB files. 1 GB bandwidth will be used! No CDN - Cachefly not IPv6 ready...
@@ -107,7 +107,7 @@ speedtest6 () {
   	echo "Location		Provider	Speed" | tee -a $HOME/bench.log
   	# United States speed test
 	v6atl=$( wget -6 -O /dev/null http://[2602:fff6:3::4:4]/100MB.test 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' )
-	echo "Atlanta, GA, US		QuadraNET		$v6atl" | tee -a $HOME/bench.log
+	echo "Atlanta, GA, US		QuadraNET	$v6atl" | tee -a $HOME/bench.log
   	v6dal=$( wget -6 -O /dev/null http://speedtest.dallas.linode.com/100MB-dallas.bin 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' )
   	echo "Dallas, TX, US		Linode		$v6dal" | tee -a $HOME/bench.log
   	v6new=$( wget -6 -O /dev/null http://speedtest.newark.linode.com/100MB-newark.bin 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' )
