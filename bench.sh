@@ -30,7 +30,8 @@ sysinfo () {
 	# Reading system uptime
 	up=$( uptime | awk '{ $1=$2=$(NF-6)=$(NF-5)=$(NF-4)=$(NF-3)=$(NF-2)=$(NF-1)=$NF=""; print }' | sed 's/^[ \t]*//;s/[ \t]*$//' )
 	# Reading operating system and version (simple, didn't filter the strings at the end...)
-	opsy=$( cat /etc/issue.net | awk 'NR==1 {print}' ) # Operating System & Version
+	opsy=$( cat /etc/os-release | grep PRETTY_NAME | tr -d '"' | sed -e "s/^PRETTY_NAME=//" )
+	#opsy=$( cat /etc/issue.net | awk 'NR==1 {print}' ) # Operating System & Version
 	arch=$( uname -m ) # Architecture
 	lbit=$( getconf LONG_BIT ) # Architecture in Bit
 	hn=$( hostname ) # Hostname
@@ -95,7 +96,8 @@ speedtest4 () {
 	leaseweb=$( wget -4 -O /dev/null http://mirror.leaseweb.com/speedtest/100mb.bin 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' )
 	echo "Haarlem, Netherlands	Leaseweb	$leaseweb" | tee -a $HOME/bench.log
 	echo "" | tee -a $HOME/bench.log
-	echo "" | tee -a $HOME/bench.log}
+	echo "" | tee -a $HOME/bench.log
+}
 speedtest6 () {
 	ipvii=$( wget -qO- ipv6.icanhazip.com ) # Getting IPv6
   	# Speed test via wget for IPv6 only with 10x 100 MB files. 1 GB bandwidth will be used! No CDN - Cachefly not IPv6 ready...
