@@ -84,17 +84,17 @@ speedtest4 () {
 	echo "" | tee -a $HOME/bench.log
 	# Asia speed test
 	linodejp=$( wget -4 -O /dev/null http://speedtest.tokyo2.linode.com/100MB-tokyo2.bin 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' )
-	echo "Tokyo, Japan		Linode		$linodejp " | tee -a $HOME/bench.log
+	echo "Tokyo, Japan		Linode		$linodejp" | tee -a $HOME/bench.log
 	slsg=$( wget -4 -O /dev/null http://speedtest.sng01.softlayer.com/downloads/test100.zip 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' )
-	echo "Singapore 		Softlayer	$slsg " | tee -a $HOME/bench.log
+	echo "Singapore 		Softlayer	$slsg" | tee -a $HOME/bench.log
 	hitw=$( wget -4 -O /dev/null http://tpdb.speed2.hinet.net/test_100m.zip 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' ) 
-	echo "Taiwan                   Hinet           $hitw " | tee -a $HOME/bench.log
+	echo "Taiwan                    Hinet           $hitw" | tee -a $HOME/bench.log
 	echo "" | tee -a $HOME/bench.log
 	# Europe speed test
 	i3d=$( wget -4 -O /dev/null http://mirror.i3d.net/100mb.bin 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' )
 	echo "Rotterdam, Netherlands	id3.net		$i3d" | tee -a $HOME/bench.log
 	leaseweb=$( wget -4 -O /dev/null http://mirror.leaseweb.com/speedtest/100mb.bin 2>&1 | awk '/\/dev\/null/ {speed=$3 $4} END {gsub(/\(|\)/,"",speed); print speed}' )
-	echo "Haarlem, Netherlands	Leaseweb	$leaseweb " | tee -a $HOME/bench.log
+	echo "Haarlem, Netherlands	Leaseweb	$leaseweb" | tee -a $HOME/bench.log
 	echo "" | tee -a $HOME/bench.log
 	echo "" | tee -a $HOME/bench.log}
 speedtest6 () {
