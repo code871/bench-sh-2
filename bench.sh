@@ -160,7 +160,7 @@ hlp () {
 	echo "Usage: bench.sh <option>"
 	echo ""
 	echo "Available options:"
-	echo "No option		: System information, IPv4 only speedtest and disk speed benchmark will be run."
+	echo "No option	: System information, IPv4 only speedtest and disk speed benchmark will be run."
 	echo "-sys		: Displays system information such as CPU, amount CPU cores, RAM and more."
 	echo "-io		: Runs a disk speedtest and displays the results."
 	echo "-6		: System information, IPv6 only speedtest and disk speed benchmark will be run."
