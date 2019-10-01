@@ -23,6 +23,8 @@ System information only.<br /><br />
 Drive Speed:<br />
 <code>./bench.sh -io</code><br />
 Drive speed test via DD only.<br /><br />
+The older version with the Geekbench function is available here: https://github.com/hidden-refuge/bench-sh-2/tree/with-geekbench
+<br /><br />
 <strong>This script is based on bench.sh by akamaras/camarg from <a href="http://www.akamaras.com/linux/linux-server-info-script/">here</a>.</strong><br />
 Copyright (C) 2011 by akamaras/camarg<br /><br />
 <strong>dmmcinytre3 from FreeVPS has added the speed test.</strong><br />
