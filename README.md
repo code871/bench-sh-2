@@ -5,7 +5,7 @@ Demo Output: http://pastebin.com/zqtBpZDU<br /><br /><br />
 Help Page:<br />
 <code>./bench.sh -h</code><br />
 or<br />
-<code>/bench.sh ?</code><br /><br />
+<code>./bench.sh ?</code><br /><br />
 System Info + Speedtest IPv4 + Drive Speed:<br />
 <code>./bench.sh</code><br />
 Classic mode. This will use 1 GB bandwidth!<br /><br />
