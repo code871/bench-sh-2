@@ -153,44 +153,6 @@ iotest () {
 	echo "Average I/O	: $ioavg MB/s" | tee -a $HOME/bench.log
 	echo "" | tee -a $HOME/bench.log
 }
-gbench () {
-	# Improved version of my code by thirthy_speed https://freevps.us/thread-16943-post-191398.html#pid191398
-	echo "" | tee -a $HOME/bench.log
-	echo "System Benchmark (Experimental)" | tee -a $HOME/bench.log
-	echo "-------------------------------" | tee -a $HOME/bench.log
-	echo "" | tee -a $HOME/bench.log
-	echo "Note: The benchmark might not always work (eg: missing dependencies)." | tee -a $HOME/bench.log
-	echo "Failures are highly possible. We're using Geekbench for this test." | tee -a $HOME/bench.log
-	echo "" | tee -a $HOME/bench.log
-        gb_page=http://www.primatelabs.com/geekbench/download/linux/
-        gb_dl=$(wget -qO - $gb_page | \
-                 sed -n 's/.*\(https\?:[^:]*\.tar\.gz\).*/\1/p')
-        gb_noext=${gb_dl##*/}
-        gb_noext=${gb_noext%.tar.gz} 
-        gb_name=${gb_noext//-/ }
-	echo "File is located at $gb_dl" | tee -a $HOME/bench.log
-	echo "Downloading and extracting $gb_name" | tee -a $HOME/bench.log
-        wget -qO - "$gb_dl" | tar xzv 2>&1 >/dev/null
-	echo "" | tee -a $HOME/bench.log
-	echo "Starting $gb_name" | tee -a $HOME/bench.log
-	echo "The system benchmark may take a while." | tee -a $HOME/bench.log
-	echo "Don't close your terminal/SSH session!" | tee -a $HOME/bench.log
-	echo "All output is redirected into a result file." | tee -a $HOME/bench.log
-	echo "" >> $HOME/bench.log
-	echo "--- Geekbench Results ---" >> $HOME/bench.log
-	sleep 2
-	$HOME/dist/$gb_noext/geekbench_x86_32 >> $HOME/bench.log
-	echo "--- Geekbench Results End ---" >> $HOME/bench.log
-	echo "" >> $HOME/bench.log
-	echo "Finished. Removing Geekbench files" | tee -a $HOME/bench.log
-	sleep 1
-	rm -rf $HOME/dist/
-	echo "" | tee -a $HOME/bench.log
-        gbl=$(sed -n '/following link/,/following link/ {/following link\|^$/b; p}' $HOME/bench.log | sed 's/^[ \t]*//;s/[ \t]*$//' )
-	echo "Benchmark Results: $gbl" | tee -a $HOME/bench.log
-	echo "Full report available at $HOME/bench.log" | tee -a $HOME/bench.log
-	echo "" | tee -a $HOME/bench.log
-}
 hlp () {
 	echo ""
 	echo "(C) Bench.sh 2 by Hidden Refuge <me at hiddenrefuge got eu dot org>"
@@ -200,17 +162,10 @@ hlp () {
 	echo "Available options:"
 	echo "No option	: System information, IPv4 only speedtest and disk speed benchmark will be run."
 	echo "-sys		: Displays system information such as CPU, amount CPU cores, RAM and more."
-	echo "-io		: Runs a disk speed test and a IOPing benchmark and displays the results."
-	echo "-6		: Normal benchmark but with a IPv6 only speedtest (run when you have IPv6)."
-	echo "-46		: Normal benchmark with IPv4 and IPv6 speedtest."
-	echo "-64		: Same as above."
-	echo "-b		: Normal benchmark with IPv4 only speedtest, I/O test and Geekbench system benchmark."
-	echo "-b6		: Normal benchmark with IPv6 only speedtest, I/O test and Geekbench system benchmark."
-	echo "-b46		: Normal benchmark with IPv4 and IPv6 speedtest, I/O test and Geekbench system benchmark."
-	echo "-b64		: Same as above."
-	echo "-h		: This help page."
-	echo ""
-	echo "The Geekbench system benchmark is experimental. So beware of failure!"
+	echo "-io		: Runs a disk speedtest and displays the results."
+	echo "-6		: System information, IPv6 only speedtest and disk speed benchmark will be run."
+	echo "-46 or -64	: System information, IPv4 and IPv6 speedtest and disk speed benchmark will be run."
+	echo "-h or ?		: Help page."
 	echo ""
 }
 case $1 in
@@ -218,21 +173,15 @@ case $1 in
 		sysinfo;;
 	'-io')
 		iotest;;
-	'-6' )
+	'-6')
 		sysinfo; speedtest6; iotest;;
-	'-46' )
+	'-46')
 		sysinfo; speedtest4; speedtest6; iotest;;
-	'-64' )
+	'-64')
 		sysinfo; speedtest4; speedtest6; iotest;;
-	'-b' )
-		sysinfo; speedtest4; iotest; gbench;;
-	'-b6' )
-		sysinfo; speedtest6; iotest; gbench;;
-	'-b46' )
-		sysinfo; speedtest4; speedtest6; iotest; gbench;;
-	'-b64' )
-		sysinfo; speedtest4; speedtest6; iotest; gbench;;
-	'-h' )
+	'-h')
+		hlp;;
+	'?')
 		hlp;;
 	*)
 		sysinfo; speedtest4; iotest;;
